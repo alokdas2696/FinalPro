@@ -6,7 +6,7 @@
     <form action="/admin" method="POST">
       <div class="mb-3">
       <label>Enter your Student ID</label>
-        <input type="text"  name="stuid" required><br>
+        <input type="number"  name="stuid" min = "0"  oninput="validity.valid||(value='');" required><br>
       </div>
 
 <div class="mb-3">
@@ -16,25 +16,25 @@
 
       <div class="mb-3">
     <label>Enter EmailID</label>
-        <input type="text" name="email" required><br>
+        <input type="email" name="email" required><br>
       </div>
       <div class="mb-3">
 
     <label>Enter Mobile Number</label>
-        <input type="text" name="mbno" required><br>
+        <input type="text" name="mbno" pattern="[6-9]{1}[0-9]{9}"  required><br>
       </div>
       <div class="mb-3">
 
     <label>Enter Maths Marks</label>
-    <input type="text" name="mtmarks" required><br>
+    <input type="number" min = "0" max="100" name="mtmarks" required><br>
       </div>
       <div class="mb-3">
     <label>Enter Science Marks</label>
-    <input type="text" name="scmarks" required><br>
+    <input type="number" min = "0" max="100"name="scmarks" required><br>
       </div>
       <div class="mb-3">
     <label>Enter Computer Marks</label>
-    <input type="text" name="csmarks" required><br>
+    <input type="number" min = "0" max="100" name="csmarks" required><br>
       </div>
 
     <input type="submit" class="btn btn-outline-dark" name="register">

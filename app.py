@@ -1,8 +1,9 @@
 
 import os
 
-from flask import Flask, render_template, session,redirect
+from flask import Flask, render_template, session,redirect,flash
 from flask_sqlalchemy import SQLAlchemy, request
+
 from flask_mail import *
 import json
 from random import randint
@@ -12,7 +13,6 @@ app.secret_key = "login"
 
 with open('config.json', 'r') as k:
     params = json.load(k)['params']
-
 otp = randint(1111, 9999)
 
 
@@ -31,9 +31,9 @@ mail = Mail(app)
 
 
 class Student(db.Model):
-    stuid = db.Column(db.Integer(), primary_key=True)
-    name = db.Column(db.String(20), unique= False, nullable=False)
-    email = db.Column(db.String(40), unique=False, nullable=False)
+    stuid = db.Column(db.Integer(), unique=True, primary_key=True)
+    name = db.Column(db.String(20), unique=False, nullable=False)
+    email = db.Column(db.String(40), unique=True, nullable=False)
     mbno = db.Column(db.String(10), unique=False, nullable=False)
     mtmarks = db.Column(db.Integer(), unique=False, nullable=False)
     scmarks = db.Column(db.Integer(), unique=False, nullable=False)
@@ -94,7 +94,7 @@ def login():
         password=request.form['password']
         if username.strip() == "admin" and password.strip() == "12345":
             session['username'] = username
-            return redirect("/admin1")
+            return redirect("/admin")
         else:
             msg = " Invalid username/ password"
             return render_template("login.html", msg=msg)
@@ -107,16 +107,9 @@ def logout():
     return render_template('login.html')
 
 
-@app.route("/admin1",methods=['GET'])
-def admin1():
-    if "username" in session:
-        alldata = Student.query.all()
-        return render_template("index1.html", alldata=alldata)
-    else:
-        return redirect("/login")
 
 
-@app.route("/admin",methods=['POST'])
+@app.route("/admin",methods=['GET','POST'])
 def add():
     if "username" in session:
         if request.method == 'POST':
@@ -128,12 +121,24 @@ def add():
             scmarks = request.form.get('scmarks')
             csmarks = request.form.get('csmarks')
 
-            stu= Student(stuid=stuid.strip(), name=name.strip(), email=email.strip(), mbno=mbno.strip(), mtmarks=mtmarks.strip(), scmarks=scmarks.strip(), csmarks=csmarks.strip())
+
+            alldata = Student.query.all()
+            for student in alldata:
+
+                if student.email == email:
+                    flash(f"This data already exits: {email} ", "info")
+                    return redirect('/admin')
+                elif student.stuid == int(stuid):
+                    flash(f"This data already exits: {stuid} ", "info")
+                    return redirect('/admin')
+
+            stu = Student(stuid=stuid.strip(), name=name.strip(), email=email.strip(), mbno=mbno.strip(), mtmarks=mtmarks.strip(), scmarks=scmarks.strip(), csmarks=csmarks.strip())
+
+
             db.session.add(stu)
             db.session.commit()
-
         alldata = Student.query.all()
-        return render_template("index1.html",alldata=alldata)
+        return render_template("index1.html", alldata=alldata)
     else:
         return redirect("/login")
 

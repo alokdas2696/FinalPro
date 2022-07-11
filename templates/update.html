@@ -6,7 +6,7 @@
     <form action="/update/{{stu.stuid}}" method="POST">
       <div class="mb-3">
       <label>Enter Student ID</label>
-        <input type="number" name="stuid"  required value="{{stu.stuid}}"><br>
+        <input type="number" name="stuid" min = "0"  oninput="validity.valid||(value='');"  required value="{{stu.stuid}}"><br>
       </div>
 
     <div class="mb-3">
@@ -16,27 +16,27 @@
 
       <div class="mb-3">
     <label>Enter EmailID</label>
-        <input type="text" name="email" required value="{{stu.email}}"><br>
+        <input type="email" name="email" required value="{{stu.email}}"><br>
       </div>
 
       <div class="mb-3">
     <label>Enter Mobile Number</label>
-        <input type="text" name="mbno" required value="{{stu.mbno}}"><br>
+        <input type="text" name="mbno" pattern="[6-9]{1}[0-9]{9}" required value="{{stu.mbno}}"><br>
       </div>
 
       <div class="mb-3">
     <label>Enter Maths Marks</label>
-    <input type="text" name="mtmarks" required value="{{stu.mtmarks}}"><br>
+    <input type="number" min = "0" max="100"  name="mtmarks" required value="{{stu.mtmarks}}"><br>
       </div>
 
       <div class="mb-3">
     <label>Enter Science Marks</label>
-    <input type="text" name="scmarks" required value="{{stu.scmarks}}"><br>
+    <input type="number" min = "0" max="100"  name="scmarks" required value="{{stu.scmarks}}"><br>
       </div>
 
       <div class="mb-3">
     <label>Enter your Computer Marks</label>
-    <input type="text" name="csmarks" required value="{{stu.csmarks}}"><br>
+    <input type="number" min = "0" max="100"  name="csmarks" required value="{{stu.csmarks}}"><br>
       </div>
 
         <input type="submit" class="btn btn-outline-dark"></input>

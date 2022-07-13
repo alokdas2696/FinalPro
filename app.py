@@ -143,8 +143,8 @@ def add():
 
         page = request.args.get('page', 1, type=int)
         # page = request.form.get('page_num')
-        alldata1 = Student.query.paginate(page=int(page), per_page=2)
-        # print(alldata1)
+        alldata1 = Student.query.paginate(page=int(page), per_page=5)
+        print(alldata1)
         return render_template('index1.html', alldata1=alldata1)
     else:
         return redirect("/login")

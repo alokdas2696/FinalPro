@@ -47,7 +47,7 @@
 
         <div class="container my-3">
             <h3> Details </h3>
-            {% if alldata1|length==0 %}
+            {% if alldata1 == None %}
 
             <div class="alert alert-dark" role="alert">
                 No Record....Please Add Students Information
@@ -81,7 +81,7 @@
                         <td>{{stu.mtmarks}}</td>
                         <td>{{stu.scmarks}}</td>
                         <td>{{stu.csmarks}}</td>
-                        <!--      <td>{{alldata1.items}}</td>-->
+
 
                         <td>
                         <a href="/update/{{stu.stuid}}" type="button" class="btn btn-outline-dark btn-sm mx-1">Update</button>
@@ -93,6 +93,19 @@
             </table>
             {% endif %}
         </div>
+
+        <!-- Pagination Links-->
+        {% for page_num in alldata1.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+            {% if page_num %}
+            {% if alldata1.page == page_num %}
+                <a class="btn btn-info mb-4" href="{{ url_for('add', page=page_num) }}">{{ page_num }}</a>
+            {% else %}
+                <a class="btn btn-info mb-4" href="{{ url_for('add',page=page_num) }}">{{ page_num }}</a>
+            {% endif %}
+            {% else %}
+            {% endif %}
+        {% endfor %}
+
 
 
 

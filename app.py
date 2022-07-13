@@ -1,7 +1,7 @@
 
 import os
 
-from flask import Flask, render_template, session,redirect,flash
+from flask import Flask, render_template, session,redirect,flash,url_for
 from flask_sqlalchemy import SQLAlchemy, request
 
 from flask_mail import *
@@ -38,6 +38,9 @@ class Student(db.Model):
     mtmarks = db.Column(db.Integer(), unique=False, nullable=False)
     scmarks = db.Column(db.Integer(), unique=False, nullable=False)
     csmarks = db.Column(db.Integer(), unique=False, nullable=False)
+
+    def __repr__(self):
+        return f"Student('{self.stuid}','{self.name}','{self.email}','{self.mbno}','{self.mtmarks}','{self.scmarks}','{self.csmarks}')"
 
 
 @app.route('/',methods=['GET'])
@@ -134,15 +137,21 @@ def add():
 
             stu = Student(stuid=stuid.strip(), name=name.strip(), email=email.strip(), mbno=mbno.strip(), mtmarks=mtmarks.strip(), scmarks=scmarks.strip(), csmarks=csmarks.strip())
 
-
             db.session.add(stu)
             db.session.commit()
-        alldata = Student.query.all()
-        return render_template("index1.html", alldata=alldata)
+        # alldata1 = Student.query.all()
+
+        page = request.args.get('page', 1, type=int)
+        # page = request.form.get('page_num')
+        alldata1 = Student.query.paginate(page=int(page), per_page=2)
+        # print(alldata1)
+        return render_template('index1.html', alldata1=alldata1)
     else:
         return redirect("/login")
 
-
+# page = request.args.get('page',1, type=int)
+#         # page = request.form.get('page_num')
+#         alldata = Student.query.paginate(page=int(page), per_page=10)
 @app.route("/update/<int:stuid>" ,methods=['GET','POST'])
 def update(stuid):
     if "username" in session:
@@ -164,7 +173,7 @@ def update(stuid):
             stu.csmarks = csmarks
             db.session.add(stu)
             db.session.commit()
-            return redirect("/admin1")
+            return redirect("/admin")
         stu = Student.query.filter_by(stuid=stuid).first()
         return render_template('update.html',stu=stu)
     else:
@@ -177,7 +186,7 @@ def delete(stuid):
         stu = Student.query.filter_by(stuid=stuid).first()
         db.session.delete(stu)
         db.session.commit()
-        return redirect("/admin1")
+        return redirect("/admin")
     else:
         return redirect("/login")
 

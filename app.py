@@ -44,6 +44,8 @@ class Student(db.Model):
         return f"Student('{self.stuid}','{self.name}','{self.email}','{self.mbno}','{self.mtmarks}','{self.scmarks}','{self.csmarks}')"
 
 
+
+
 @app.route('/', methods=['GET'])
 def home():
     return render_template("email.html")
@@ -123,7 +125,6 @@ def add():
             scmarks = request.form.get('scmarks')
             csmarks = request.form.get('csmarks')
 
-
             alldata = Student.query.all()
             for student in alldata:
 
@@ -135,18 +136,14 @@ def add():
                     return redirect('/admin')
 
             stu = Student(stuid=stuid.strip(), name=name.strip(), email=email.strip(), mbno=mbno.strip(), mtmarks=mtmarks.strip(), scmarks=scmarks.strip(), csmarks=csmarks.strip())
-
             db.session.add(stu)
             db.session.commit()
         # alldata1 = Student.query.all()
-
         page = request.args.get('page', 1, type=int)
-        # page = request.form.get('page_num')
-        alldata1 = Student.query.paginate(page=int(page), per_page=5)
-
+        alldata1 = Student.query.order_by(Student.stuid.asc()).paginate(page=int(page), per_page=5)
         return render_template('index1.html', alldata1=alldata1)
     else:
-        return redirect("/login")
+        return redirect('/login')
 
 # page = request.args.get('page',1, type=int)
 #         # page = request.form.get('page_num')
@@ -188,13 +185,19 @@ def delete(stuid):
         return redirect("/admin")
     else:
         return redirect("/login")
-@app.route('/search', methods=["POST"] )
+
+@app.route('/search',methods=['GET','POST'])
 def search():
-    if "username" in session:
-        if request.method == 'POST':
-            search = request.form.get('searched')
-            searched = Student.query.all()
-            return render_template('search.html', search=search, searched=searched)
+    if 'username' in session:
+        if request.method == 'POST' and 'tag' in request.form:
+            tag = request.form.get('tag')
+            search = "%{}%".format(tag)
+            page = request.args.get('page', 1, type=int)
+            alldata1 = Student.query.filter(Student.name.like(search)).paginate(per_page=20, page=int(page))
+            return render_template('index1.html', alldata1=alldata1, tag=tag)
+
+        return render_template("login.html")
+
 
 if __name__ == "__main__":
     app.run(debug=True)

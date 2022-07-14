@@ -31,7 +31,7 @@
         </div>
         <div class="mb-3">
             <label>Enter Science Marks</label>
-            <input type="number" min = "0" max="100"name="scmarks" required><br>
+            <input type="number" min = "0" max="100" name="scmarks" required><br>
         </div>
 
         <div class="mb-3">
@@ -43,6 +43,27 @@
 
         </form>
     </div>
+                       <div class="container">
+        <div class="row">
+            <div class="col-8">
+                <strong>You Search For : {{ tag }}</strong>
+
+            </div>
+            <div class="col-4">
+                <form action="/search" method="post" autocomplete="off">
+                    <div class="row">
+                    <div class="col-6">
+                        <input type="text" style="width:180px" class="form-control" name="tag" id="tag" size="70" placeholder="Search Student Name" required/>
+                    </div>
+                    <div class="col-6" align="left">
+                        <input type="submit" value="Search" class="form-control btn btn-outline-dark " name="">
+                    </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
 
 
         <div class="container my-3">
@@ -53,7 +74,11 @@
                 No Record....Please Add Students Information
             </div>
 
+
+
             {% else %}
+
+
             <table class="table">
                 <thead>
                     <tr>
@@ -95,6 +120,7 @@
         </div>
 
         <!-- Pagination Links-->
+<div class="d-grid gap-2 d-md-flex justify-content-md-end">
          <nav aria-label="Page navigation example">
                 <ul class="pagination">
                     {% if alldata1.has_prev %}
@@ -120,11 +146,20 @@
                     {% if alldata1.has_next %}
                       <li class="page-item"> <a class="page-link" href="{{ url_for('add', page=alldata1.next_num) }}">Next</a></li>
                     {% else %}
-                      <li class="page-item"><a class="page-link btn disabled" href="#">Next</a></li>
+                      <li class="page-item"><a class="page-link btn disabled d-grid gap-2 col-6 mx-auto" href="#">Next</a></li>
                     {% endif %}
 
                 </ul>
+
+
+
     </nav>
+</div>
+<div class="d-grid gap-2 col-6 mx-auto">
+  <a  href="#" type="button" class="btn btn-outline-dark ">Go Back to Dashboard</a>
+
+</div>
+
 
 
 

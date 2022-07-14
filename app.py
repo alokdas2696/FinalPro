@@ -4,6 +4,7 @@ import os
 from flask import Flask, render_template, session,redirect,flash,url_for
 from flask_sqlalchemy import SQLAlchemy, request
 
+
 from flask_mail import *
 import json
 from random import randint
@@ -43,7 +44,7 @@ class Student(db.Model):
         return f"Student('{self.stuid}','{self.name}','{self.email}','{self.mbno}','{self.mtmarks}','{self.scmarks}','{self.csmarks}')"
 
 
-@app.route('/',methods=['GET'])
+@app.route('/', methods=['GET'])
 def home():
     return render_template("email.html")
 
@@ -110,8 +111,6 @@ def logout():
     return render_template('login.html')
 
 
-
-
 @app.route("/admin",methods=['GET','POST'])
 def add():
     if "username" in session:
@@ -144,7 +143,7 @@ def add():
         page = request.args.get('page', 1, type=int)
         # page = request.form.get('page_num')
         alldata1 = Student.query.paginate(page=int(page), per_page=5)
-        print(alldata1)
+
         return render_template('index1.html', alldata1=alldata1)
     else:
         return redirect("/login")
@@ -189,7 +188,13 @@ def delete(stuid):
         return redirect("/admin")
     else:
         return redirect("/login")
-
+@app.route('/search', methods=["POST"] )
+def search():
+    if "username" in session:
+        if request.method == 'POST':
+            search = request.form.get('searched')
+            searched = Student.query.all()
+            return render_template('search.html', search=search, searched=searched)
 
 if __name__ == "__main__":
     app.run(debug=True)

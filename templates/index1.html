@@ -95,16 +95,36 @@
         </div>
 
         <!-- Pagination Links-->
-        {% for page_num in alldata1.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
-            {% if page_num %}
-            {% if alldata1.page == page_num %}
-                <a class="btn btn-info mb-4" href="{{ url_for('add', page=page_num) }}">{{ page_num }}</a>
-            {% else %}
-                <a class="btn btn-info mb-4" href="{{ url_for('add',page=page_num) }}">{{ page_num }}</a>
-            {% endif %}
-            {% else %}
-            {% endif %}
-        {% endfor %}
+         <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    {% if alldata1.has_prev %}
+                      <li class="page-item"> <a class="page-link" href="{{ url_for('add',page=alldata1.prev_num) }}">Previous</a></li>
+                    {% else %}
+                      <li class="page-item"><a class="page-link btn disabled" href="#">Previous</a></li>
+                    {% endif %}
+
+     {% for page_num in alldata1.iter_pages(left_edge=3, right_edge=3) %}
+     {% if page_num %}
+
+      {% if page_num==alldata1.page %}
+       <li class="page-item active"><a class="page-link" href="{{ url_for('add', page=page_num) }}">{{ page_num }}</a></li>
+      {% else %}
+       <li class="page-item"><a class="page-link" href="{{ url_for('add', page=page_num) }}">{{ page_num }}</a></li>
+      {% endif %}
+
+     {% else %}
+      <li class="page-item disabled" id="example_ellipsis"><a href="#" class="page-link">…</a></li>
+     {% endif %}
+     {% endfor %}
+
+                    {% if alldata1.has_next %}
+                      <li class="page-item"> <a class="page-link" href="{{ url_for('add', page=alldata1.next_num) }}">Next</a></li>
+                    {% else %}
+                      <li class="page-item"><a class="page-link btn disabled" href="#">Next</a></li>
+                    {% endif %}
+
+                </ul>
+    </nav>
 
 
 

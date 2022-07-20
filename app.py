@@ -1,12 +1,16 @@
 
 import os
 
-from flask import Flask, render_template, session,redirect,flash,url_for
+from flask import Flask, render_template, session,redirect,flash,make_response, send_file
 from flask_sqlalchemy import SQLAlchemy, request
-
 
 from flask_mail import *
 import json
+import pdfkit
+path_wkthmltopdf = b"C:\Program Files\wkhtmltopdf\\bin\wkhtmltopdf.exe"
+config = pdfkit.configuration(wkhtmltopdf=path_wkthmltopdf)
+
+
 from random import randint
 app = Flask(__name__)
 app.secret_key = "login"
@@ -48,6 +52,7 @@ class Student(db.Model):
 
 @app.route('/', methods=['GET'])
 def home():
+    session.pop('username', None)
     return render_template("email.html")
 
 
@@ -81,23 +86,19 @@ def validate(d):
         gmail = f.email
         userotp = request.form['otp']
         if otp == int(userotp):
-            # msg = Message('OTP', sender='alokdas9626@gmail.com', recipients=[gmail])
-            # # msg.body = f.name
-            # mail.send(msg)
-
             mail.send_message("Result: ",sender='alokdas9626@gmail.com', recipients=[gmail], body=f.name + "\n Email: " + f.email + "\n Math Marks: " + str(f.mtmarks)
                               + "\n Science Marks: " + str(f.scmarks)+ "\n Computer Marks: " + str(f.csmarks)+ "\n Total Marks:"
                             + str(f.csmarks + f.mtmarks + f.scmarks)+ "\n Percenatge: " +str(round(((f.csmarks + f.mtmarks + f.scmarks)/300)*100)))
 
-            return render_template('result.html',f=f, msg="Result has been Send to your given respected Email Id")
+            return render_template('result.html',f=f, d=d, msg="Result has been Send to your given respected Email Id")
         return render_template('email.html', msg="Not Verified !! try again")
 
 
 @app.route("/login", methods=['GET','POST'])
 def login():
     if request.method == 'POST':
-        username=request.form['username']
-        password=request.form['password']
+        username = request.form['username']
+        password = request.form['password']
         if username.strip() == "admin" and password.strip() == "12345":
             session['username'] = username
             return redirect("/admin")
@@ -109,11 +110,11 @@ def login():
 
 @app.route("/logout")
 def logout():
-    session.pop('email',None)
+    session.pop('username')
     return render_template('login.html')
 
 
-@app.route("/admin",methods=['GET','POST'])
+@app.route("/admin", methods=['GET','POST'])
 def add():
     if "username" in session:
         if request.method == 'POST':
@@ -138,16 +139,14 @@ def add():
             stu = Student(stuid=stuid.strip(), name=name.strip(), email=email.strip(), mbno=mbno.strip(), mtmarks=mtmarks.strip(), scmarks=scmarks.strip(), csmarks=csmarks.strip())
             db.session.add(stu)
             db.session.commit()
-        # alldata1 = Student.query.all()
+
         page = request.args.get('page', 1, type=int)
         alldata1 = Student.query.order_by(Student.stuid.asc()).paginate(page=int(page), per_page=5)
         return render_template('index1.html', alldata1=alldata1)
     else:
         return redirect('/login')
 
-# page = request.args.get('page',1, type=int)
-#         # page = request.form.get('page_num')
-#         alldata = Student.query.paginate(page=int(page), per_page=10)
+
 @app.route("/update/<int:stuid>" ,methods=['GET','POST'])
 def update(stuid):
     if "username" in session:
@@ -197,6 +196,17 @@ def search():
             return render_template('index1.html', alldata1=alldata1, tag=tag)
 
         return render_template("login.html")
+
+
+@app.route('/download/<int:d>')
+def download(d):
+    f = Student.query.get(d)
+    rendered = render_template('result.html', f=f, msg="Result has been Send to your given respected Email Id")
+    pdf = pdfkit.from_string(rendered, False, configuration=config)
+    response = make_response(pdf)
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = 'attachment; filename=MyResult.pdf'
+    return response
 
 
 if __name__ == "__main__":

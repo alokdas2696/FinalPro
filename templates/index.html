@@ -35,6 +35,13 @@
 
     <input type="submit" name="register">
 
+    <a href="/" type="button" class="btn btn-outline-dark btn-sm mx-1">Go Back to Dashboard</a>
+<ul>
+ {% for file in files %}
+  <li> <a href="{{ url_for('download', filename=file) }}">{{ file }}</a></li>
+ {% endfor %}
+</ul>
+<a href="{{ url_for('validate(d)' ,filename = 'MyResult.pdf') }}">Download</a>
 </form>
 </body>
 </html>

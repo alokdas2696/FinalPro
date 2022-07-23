@@ -34,7 +34,7 @@
 
     <form action="/verify" method="POST">
         <label>Enter your Roll Number</label>
-        <input type="text" name="rollno" required><br>
+        <input type="number" name="rollno" min = "1"  oninput="validity.valid||(value='');" required><br>
 
 
         <input type="submit" class="btn btn-outline-dark value="Submit">

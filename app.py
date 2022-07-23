@@ -1,7 +1,7 @@
 
 import os
 
-from flask import Flask, render_template, session,redirect,flash,make_response, send_file
+from flask import Flask, render_template, session,redirect,flash,make_response
 from flask_sqlalchemy import SQLAlchemy, request
 
 from flask_mail import *
@@ -147,7 +147,7 @@ def add():
         return redirect('/login')
 
 
-@app.route("/update/<int:stuid>" ,methods=['GET','POST'])
+@app.route("/update/<int:stuid>", methods=['GET', 'POST'])
 def update(stuid):
     if "username" in session:
         if request.method == 'POST':
@@ -166,11 +166,18 @@ def update(stuid):
             stu.mtmarks = mtmarks
             stu.scmarks = scmarks
             stu.csmarks = csmarks
-            db.session.add(stu)
-            db.session.commit()
+            try:
+                db.session.add(stu)
+                db.session.commit()
+            except Exception:
+                db.session.rollback()
+                flash(f"This email already exits", "info")
+                return redirect('/admin')
+            flash(f"Data updated successfully ", "info")
             return redirect("/admin")
+
         stu = Student.query.filter_by(stuid=stuid).first()
-        return render_template('update.html',stu=stu)
+        return render_template('update.html', stu=stu)
     else:
         return redirect("/login")
 
@@ -181,6 +188,7 @@ def delete(stuid):
         stu = Student.query.filter_by(stuid=stuid).first()
         db.session.delete(stu)
         db.session.commit()
+        flash(f"Data deleted successfully ", "danger")
         return redirect("/admin")
     else:
         return redirect("/login")

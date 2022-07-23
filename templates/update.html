@@ -6,7 +6,7 @@
     <form action="/update/{{stu.stuid}}" method="POST">
       <div class="mb-3">
       <label>Enter Student ID</label>
-        <input type="number" name="stuid" min = "0"  oninput="validity.valid||(value='');"  required value="{{stu.stuid}}"><br>
+        <input type="number" name="stuid" min = "0"  oninput="validity.valid||(value='');"   value="{{stu.stuid}}"><br>
       </div>
 
     <div class="mb-3">
@@ -16,7 +16,7 @@
 
       <div class="mb-3">
     <label>Enter EmailID</label>
-        <input type="email" name="email" required value="{{stu.email}}"><br>
+        <input type="email" name="email"  value="{{stu.email}}"><br>
       </div>
 
       <div class="mb-3">
@@ -39,7 +39,7 @@
     <input type="number" min = "0" max="100"  name="csmarks" required value="{{stu.csmarks}}"><br>
       </div>
 
-        <input type="submit" class="btn btn-outline-dark"></input>
+        <input type="submit" class="btn btn-outline-dark">
 
     </form>
     </div>

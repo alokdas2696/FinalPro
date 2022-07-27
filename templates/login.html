@@ -2,24 +2,41 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+
+    <title>Admin</title>
+
 </head>
 <body>
-<div class="msg">{{msg}}</div>
-<div class="msg"><h2>Admin Login</h2></div>
-<form action="/login" method="POST" class="dropdown-menu p-4">
-  <div class="mb-3">
-    <label class="form-label">Username</label>
-    <input type="text" class="form-control" name = "username" placeholder="username" required>
-  </div>
-  <div class="mb-3">
-    <label  class="form-label">Password</label>
-    <input type="password" class="form-control" name = "password" placeholder="Password" required>
-  </div>
-  <div class="mb-3">
-  </div>
-  <button type="submit" class="btn btn-primary">Sign in</button>
-</form>
 
+<center>
+
+
+  <div class="msg"><h2>Admin Login</h2></div>
+
+      <div class="msg"><h6 style="color:red" >{{msg}}</h6></div>
+
+      <form action="/login" method="POST" class="dropdown-menu p-4">
+        <div class="mb-3">
+          <label class="form-label"><h3>Username</h3></label>
+          <input type="text" class="form-control" name = "username" onkeypress="validate(event)" placeholder="username" style="text-align: center" required>
+        </div>
+        <div class="mb-3">
+          <label  class="form-label"><h3>Password</h3></label>
+          <input type="password" class="form-control" name = "password" onkeypress="validate(event)" placeholder="password" style="text-align: center" required>
+        </div>
+        <br>
+        <div class="mb-3">
+          <button type="submit" class="btn btn-outline-dark" > Sign in </button>
+        </div>
+      </form>
+  </center>
 </body>
 </html>
+<script>
+    function validate(event) {
+      if (event.key == "-") {
+        event.preventDefault();
+        return false;
+      }
+    }
+</script>

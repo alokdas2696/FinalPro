@@ -6,22 +6,22 @@
     <form action="/update/{{stu.stuid}}" method="POST">
       <div class="mb-3">
       <label>Enter Student ID</label>
-        <input type="number" name="stuid" min = "0"  oninput="validity.valid||(value='');"   value="{{stu.stuid}}"><br>
+        <input type="number" name="stuid" min = "0"  onkeypress="validate(event)"   value="{{stu.stuid}}"><br>
       </div>
 
     <div class="mb-3">
     <label>Enter Student Name</label>
-        <input type="text" name="name" required value="{{stu.name}}"><br>
+        <input type="text" name="name" onkeypress="validate(event)" pattern="[a-zA-Z'-'\s]*" required value="{{stu.name}}"><br>
     </div>
 
       <div class="mb-3">
     <label>Enter EmailID</label>
-        <input type="email" name="email"  value="{{stu.email}}"><br>
+        <input type="email" name="email" onkeypress="validate(event)" value="{{stu.email}}"><br>
       </div>
 
       <div class="mb-3">
     <label>Enter Mobile Number</label>
-        <input type="text" name="mbno" pattern="[6-9]{1}[0-9]{9}" required value="{{stu.mbno}}"><br>
+        <input type="text" name="mbno" pattern="[6-9]{1}[0-9]{9}"  onkeypress="validate(event)" required value="{{stu.mbno}}"><br>
       </div>
 
       <div class="mb-3">
@@ -44,7 +44,14 @@
     </form>
     </div>
 
-
+<script>
+    function validate(event) {
+      if (event.key == "-") {
+        event.preventDefault();
+        return false;
+      }
+    }
+</script>
 
 
     <!-- Optional JavaScript; choose one of the two! -->

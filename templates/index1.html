@@ -1,28 +1,27 @@
 <!--{% extends 'base.html' %}-->
 {% block title %} AddStudents {% endblock title %}
 {% block body %}
-
     <div class="container my-3">
         <h2>Add Students</h2><br>
         <form action="/admin" method="POST">
         <div class="mb-3">
             <label>Enter your Student ID</label>
-            <input type="number"  name="stuid" min = "1"  oninput="validity.valid||(value='');" required><br>
+            <input type="number"  name="stuid" min = "1"  onkeypress="validate(event)" required><br>
         </div>
 
         <div class="mb-3">
             <label>Enter Student Name</label>
-            <input type="text" name="name" required><br>
+            <input type="text" name="name" pattern="[a-zA-Z'-'\s]*" required><br>
         </div>
 
         <div class="mb-3">
             <label>Enter EmailID</label>
-            <input type="email" name="email" required><br>
+            <input type="email" name="email" onkeypress="validate(event)" required><br>
         </div>
 
         <div class="mb-3">
             <label>Enter Mobile Number</label>
-            <input type="text" name="mbno" pattern="[6-9]{1}[0-9]{9}"  required><br>
+            <input type="text" name="mbno" pattern="[6-9]{1}[0-9]{9}" onkeypress="validate(event)"  required><br>
         </div>
 
         <div class="mb-3">
@@ -46,7 +45,7 @@
                        <div class="container">
         <div class="row">
             <div class="col-8">
-                <strong>You Search For : {{ tag }}</strong>
+                <strong>You Search For :</strong> <h6 style="color:red"> {{tag}}</h6>
 
             </div>
             <div class="col-4">
@@ -118,6 +117,15 @@
             </table>
             {% endif %}
         </div>
+
+<script>
+    function validate(event) {
+      if (event.key == "-") {
+        event.preventDefault();
+        return false;
+      }
+    }
+</script>
 
         <!-- Pagination Links-->
 <div class="d-grid gap-2 d-md-flex justify-content-md-end">

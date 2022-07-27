@@ -25,22 +25,27 @@
     </div>
   </div>
 </nav>
+<center>
 
-{{msg}}
 <div>
     <h2>Student Login </h2>
 </div>
+    <br>
+
+    <h6 style="color:red"> {{msg}}</h6>
+
+    <br>
 <div>
-
     <form action="/verify" method="POST">
-        <label>Enter your Roll Number</label>
-        <input type="number" name="rollno" min = "1"  oninput="validity.valid||(value='');" required><br>
-
-
-        <input type="submit" class="btn btn-outline-dark value="Submit">
-
+        <label>Enter your Roll Number:</label>
+        <input type="number" name="rollno" min = "1"  oninput="validity.valid||(value='');" required><br><br>
+        <div class="d-grid gap-2 col-1 mx-auto">
+        <input type="submit" class="btn btn-outline-dark" value="Submit">
+        </div>
     </form>
 </div>
 
+</center>
 </body>
 </html>
+

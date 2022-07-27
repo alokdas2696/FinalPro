@@ -53,7 +53,7 @@ def send_otp(email, x):
         smtp.sendmail('alokdas9626@gmail,com', email, msg)
 
 
-@app.route("/resendotp", methods=['GET','POST'])
+@app.route("/resendotp", methods=['GET', 'POST'])
 def resend():
     if request.method == 'POST':
         if 'email' in session:

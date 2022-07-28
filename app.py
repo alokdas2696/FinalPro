@@ -99,7 +99,7 @@ def validate(d):
                     body = (str(f.name) + "\n Email: " + str(f.email) + "\n Math Marks: " + str(f.mtmarks) +
                             "\n Science Marks: " + str(f.scmarks)+ "\n Computer Marks: " + str(f.csmarks) +
                             "\n Total Marks:" + str(f.csmarks + f.mtmarks + f.scmarks) + "\n Percenatge: " +
-                            str(((f.csmarks + f.mtmarks + f.scmarks)/300)*100))
+                            str(round(((f.csmarks + f.mtmarks + f.scmarks)/300)*100)))
 
                     msg = f'Subject:{subject}\n\n{body}'
                     smtp.sendmail('alokdas9626@gmail,com', emaildb, msg)
@@ -142,8 +142,18 @@ def logout():
     return render_template('login.html')
 
 
-@app.route("/admin", methods=['GET','POST'])
-def add():
+@app.route("/admin", methods=['GET', 'POST'])
+def admin():
+    if "username" in session:
+        page = request.args.get('page', 1, type=int)
+        alldata1 = Student.query.order_by(Student.stuid.asc()).paginate(page=int(page), per_page=5)
+        return render_template('index1.html', alldata1=alldata1)
+    else:
+        return redirect('/')
+
+
+@app.route('/add', methods=['GET', 'POST'])
+def addstu():
     if "username" in session:
         if request.method == 'POST':
             stuid = request.form.get('stuid')
@@ -163,15 +173,15 @@ def add():
                     flash(f"This data already exits: {stuid} ", "info")
                     return redirect('/admin')
 
-            stu = Student(stuid=stuid.strip(), name=name.strip(), email=email.strip(), mbno=mbno.strip(), mtmarks=mtmarks.strip(), scmarks=scmarks.strip(), csmarks=csmarks.strip())
+            stu = Student(stuid=stuid.strip(), name=name.strip(), email=email.strip(),
+                          mbno=mbno.strip(), mtmarks=mtmarks.strip(), scmarks=scmarks.strip(),
+                          csmarks=csmarks.strip())
             db.session.add(stu)
             db.session.commit()
             flash(f"Data inserted successfully ", "info")
-        page = request.args.get('page', 1, type=int)
-        alldata1 = Student.query.order_by(Student.stuid.asc()).paginate(page=int(page), per_page=5)
-        return render_template('index1.html', alldata1=alldata1)
-    else:
-        return redirect('/login')
+            return redirect('/admin')
+        return render_template('add.html')
+    return redirect('/')
 
 
 @app.route("/update/<int:stuid>", methods=['GET', 'POST'])
@@ -206,7 +216,7 @@ def update(stuid):
         stu = Student.query.filter_by(stuid=stuid).first()
         return render_template('update.html', stu=stu)
     else:
-        return redirect("/login")
+        return redirect("/")
 
 
 @app.route("/delete/<int:stuid>")
@@ -218,7 +228,7 @@ def delete(stuid):
         flash(f"Data deleted successfully ", "danger")
         return redirect("/admin")
     else:
-        return redirect("/login")
+        return redirect("/")
 
 
 @app.route('/search',methods=['GET','POST'])
@@ -230,7 +240,10 @@ def search():
             page = request.args.get('page', 1, type=int)
             alldata1 = Student.query.filter(Student.name.like(search)).paginate(per_page=20, page=int(page))
             return render_template('index1.html', alldata1=alldata1, tag=tag)
-        return render_template("login.html")
+        return render_template("email.html")
+    return redirect('/')
+
+
 
 
 if __name__ == "__main__":

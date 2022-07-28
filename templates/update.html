@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+<!--{% extends 'base.html' %}-->
 {% block title %} AddStudents {% endblock title %}
 {% block body %}
     <div class="container my-3">
@@ -21,6 +21,7 @@
 
       <div class="mb-3">
     <label>Enter Mobile Number</label>
+          <span>+91</span>
         <input type="text" name="mbno" pattern="[6-9]{1}[0-9]{9}"  onkeypress="validate(event)" required value="{{stu.mbno}}"><br>
       </div>
 

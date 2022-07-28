@@ -1,66 +1,17 @@
 <!--{% extends 'base.html' %}-->
 {% block title %} AddStudents {% endblock title %}
 {% block body %}
-    <div class="container my-3">
-        <h2>Add Students</h2><br>
-        <form action="/admin" method="POST">
-        <div class="mb-3">
-            <label>Enter your Student ID</label>
-            <input type="number"  name="stuid" min = "1"  onkeypress="validate(event)" required><br>
-        </div>
-
-        <div class="mb-3">
-            <label>Enter Student Name</label>
-            <input type="text" name="name" pattern="[a-zA-Z'-'\s]*" required><br>
-        </div>
-
-        <div class="mb-3">
-            <label>Enter EmailID</label>
-            <input type="email" name="email" onkeypress="validate(event)" required><br>
-        </div>
-
-        <div class="mb-3">
-            <label>Enter Mobile Number</label>
-            <input type="text" name="mbno" pattern="[6-9]{1}[0-9]{9}" onkeypress="validate(event)"  required><br>
-        </div>
-
-        <div class="mb-3">
-            <label>Enter Maths Marks</label>
-            <input type="number" min = "0" max="100" name="mtmarks" required><br>
-        </div>
-        <div class="mb-3">
-            <label>Enter Science Marks</label>
-            <input type="number" min = "0" max="100" name="scmarks" required><br>
-        </div>
-
-        <div class="mb-3">
-            <label>Enter Computer Marks</label>
-            <input type="number" min = "0" max="100" name="csmarks" required><br>
-        </div>
-
-        <input type="submit" class="btn btn-outline-dark" name="register">
-
-        </form>
-    </div>
+<br>
 <div class="container">
         <div class="row">
             <div class="col-8">
                 <strong>You Search For :</strong> <h6 style="color:red"> {{tag}}</h6>
 
             </div>
-            <div class="col-4">
-                <form action="/search" method="post" autocomplete="off">
-                    <div class="row">
-                    <div class="col-6">
-                        <input type="text" style="width:180px" class="form-control" name="tag" id="tag" size="70" placeholder="Search Student Name" required/>
-                    </div>
-                    <div class="col-6" align="left">
-                        <input type="submit" value="Search" class="form-control btn btn-outline-dark " name="">
-                    </div>
-                    </div>
-                </form>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
 
-            </div>
+  <a href="/add" class="btn btn-outline-dark" type="button">ADD STUDENTS</a>
+</div>
         </div>
     </div>
 
@@ -78,7 +29,7 @@
             {% else %}
 
         <div class="table-responsive">
-            <table class="table">
+            <table class="table align-middle">
                 <thead>
                     <tr>
                         <th scope="col">SNo</th>
@@ -126,6 +77,8 @@
         return false;
       }
     }
+
+
 </script>
 
         <!-- Pagination Links-->
@@ -133,7 +86,7 @@
          <nav aria-label="Page navigation example">
                 <ul class="pagination">
                     {% if alldata1.has_prev %}
-                      <li class="page-item"> <a class="page-link" href="{{ url_for('add',page=alldata1.prev_num) }}">Previous</a></li>
+                      <li class="page-item"> <a class="page-link" href="{{ url_for('admin',page=alldata1.prev_num) }}">Previous</a></li>
                     {% else %}
                       <li class="page-item"><a class="page-link btn disabled" href="#">Previous</a></li>
                     {% endif %}
@@ -142,9 +95,9 @@
      {% if page_num %}
 
       {% if page_num==alldata1.page %}
-       <li class="page-item active"><a class="page-link" href="{{ url_for('add', page=page_num) }}">{{ page_num }}</a></li>
+       <li class="page-item active"><a class="page-link" href="{{ url_for('admin', page=page_num) }}">{{ page_num }}</a></li>
       {% else %}
-       <li class="page-item"><a class="page-link" href="{{ url_for('add', page=page_num) }}">{{ page_num }}</a></li>
+       <li class="page-item"><a class="page-link" href="{{ url_for('admin', page=page_num) }}">{{ page_num }}</a></li>
       {% endif %}
 
      {% else %}
@@ -153,7 +106,7 @@
      {% endfor %}
 
                     {% if alldata1.has_next %}
-                      <li class="page-item"> <a class="page-link" href="{{ url_for('add', page=alldata1.next_num) }}">Next</a></li>
+                      <li class="page-item"> <a class="page-link" href="{{ url_for('admin', page=alldata1.next_num) }}">Next</a></li>
                     {% else %}
                       <li class="page-item"><a class="page-link btn disabled d-grid gap-2 col-6 mx-auto" href="#">Next</a></li>
                     {% endif %}
@@ -165,7 +118,7 @@
     </nav>
 </div>
 <div class="d-grid gap-2 col-6 mx-auto">
-  <a  href="#" type="button" class="btn btn-outline-dark ">Go Back to Dashboard</a>
+  <a  href="/admin" type="button" class="btn btn-outline-dark ">Back to Admin</a>
 
 </div>
 

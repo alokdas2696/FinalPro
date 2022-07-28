@@ -12,6 +12,7 @@
     <title>
       {% block title %} -Admin {% endblock title %}
     </title>
+
   </head>
   <body>
   <nav class="navbar navbar-expand-lg navbar navbar-dark bg-dark">
@@ -26,6 +27,10 @@
           <a class="nav-link active" aria-current="page" href="/">Home</a>
         </li>
       </ul>
+      <form action="/search" method="post" autocomplete="off" class="d-flex" role="search">
+        <input type="text" style="width:140px; text-align:center" class="form-control me-2" name="tag" id="tag" size="70" placeholder="Student Name" required >
+        <button class="btn btn-outline-success me-2" type="submit">Search</button>
+      </form>
       <form class="d-flex" role="search">
         <a href="/" class="btn btn-outline-success" type="button">LOG OUT</a>
       </form>

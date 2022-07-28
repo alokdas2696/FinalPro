@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ADD STUDENTS</title>
+     <!-- Bootstrap CSS -->
+
+    <title>Email Verification</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+          rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar navbar-dark bg-dark">
+  <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+      <a class="navbar-brand" href="/">Dashboard</a>
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+      </ul>
+      <form class="d-flex" role="search">
+        <a href="/admin" class="btn btn-outline-success btn-sm mx-1" type="button">Back</a>
+          <a href="/" class="btn btn-outline-success btn-sm mx-1" type="button">LOG OUT</a>
+      </form>
+    </div>
+  </div>
+</nav>
+<div class="container my-3">
+        <h2>Add Students</h2><br>
+        <form action="/add" method="POST">
+        <div class="mb-3">
+            <label>Enter your Student ID</label>
+            <input type="number"  name="stuid" min = "1"  onkeypress="validate(event)" required><br>
+        </div>
+
+        <div class="mb-3">
+            <label>Enter Student Name</label>
+            <input type="text" name="name"style="text-align: center" pattern="[a-zA-Z'-'\s]*" required><br>
+        </div>
+
+        <div class="mb-3">
+            <label>Enter EmailID</label>
+            <input type="email" name="email"style="text-align: center" onkeypress="validate(event)" required><br>
+        </div>
+
+        <div class="mb-3">
+            <label>Enter Mobile Number</label>
+            <span>+91</span>
+            <input type="text" name="mbno" pattern="[6-9]{1}[0-9]{9}"style="text-align: center" onkeypress="validate(event)"  required><br>
+        </div>
+
+        <div class="mb-3">
+            <label>Enter Maths Marks</label>
+            <input type="number" min = "0" max="100"style="text-align: center" name="mtmarks" required><br>
+        </div>
+        <div class="mb-3">
+            <label>Enter Science Marks</label>
+            <input type="number" min = "0" max="100"style="text-align: center" name="scmarks" required><br>
+        </div>
+
+        <div class="mb-3">
+            <label>Enter Computer Marks</label>
+            <input type="number" min = "0" max="100" style="text-align: center" name="csmarks" required><br>
+        </div>
+
+        <input type="submit" class="btn btn-outline-dark" name="register">
+
+        </form>
+    </div>
+
+</body>
+</html>

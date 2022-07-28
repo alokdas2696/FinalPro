@@ -60,7 +60,7 @@
       <td>{{f.scmarks}}</td>
       <td>{{f.csmarks}}</td>
            <th>{{f.csmarks + f.mtmarks + f.scmarks}}</th>
-            <th>{{((f.csmarks + f.mtmarks + f.scmarks)/300)*100}}</th>
+            <th>{{(((f.csmarks + f.mtmarks + f.scmarks)/300)*100)|round }}</th>
     </tr>
    </table>
 

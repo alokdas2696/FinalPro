@@ -95,7 +95,7 @@
      {% if page_num %}
 
       {% if page_num==alldata1.page %}
-       <li class="page-item active"><a class="page-link" href="{{ url_for('admin', page=page_num) }}">{{ page_num }}</a></li>
+       <li class="page-item active"><a class="page-link"  href="{{ url_for('admin', page=page_num) }}">{{ page_num }}</a></li>
       {% else %}
        <li class="page-item"><a class="page-link" href="{{ url_for('admin', page=page_num) }}">{{ page_num }}</a></li>
       {% endif %}

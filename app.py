@@ -74,7 +74,7 @@ def verify():
             return render_template('email.html', msg="Please Enter Valid Roll NO")
 
         emaildb = stuid.email
-        session['email'] = (emaildb, d)    #will store this in session for resend otp
+        session['email'] = (emaildb, d)
         x = generate_otp()
         send_otp(emaildb, x)
 
@@ -109,7 +109,7 @@ def validate(d):
         # return render_template('email.html')
 
 
-@app.route('/download/<int:d>',methods=['GET','POST'])
+@app.route('/download/<int:d>', methods=['GET', 'POST'])
 def download(d):
     f = Student.query.get(d)
     rendered = render_template('result.html', f=f, msg="Result has been Send to your given respected Email Id")
@@ -242,8 +242,6 @@ def search():
             return render_template('index1.html', alldata1=alldata1, tag=tag)
         return render_template("email.html")
     return redirect('/')
-
-
 
 
 if __name__ == "__main__":
